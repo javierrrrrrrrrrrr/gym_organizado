@@ -8,20 +8,18 @@ abstract class LoginEvent extends Equatable {
 }
 
 /// evento de inicio de aplicaciones
-class AppStart extends LoginEvent {}
+class AppStartEvent extends LoginEvent {}
 
 /// evento de inicio de sesión de aplicaciones
-class LoginIn extends LoginEvent {
-  final String token;
+class LoginButtonPressed extends LoginEvent {
+  final String email;
+  final String password;
 
-  const LoginIn({required this.token});
-
-  @override
-  List<Object> get props => [token];
+  const LoginButtonPressed({required this.password, required this.email});
 
   @override
-  String toString() => "LoggedIn { token: $token }";
+  List<Object> get props => [email, password];
 }
 
 /// evento de aplicación de salida de inicio de sesión
-class LoginOut extends LoginEvent {}
+class LoginOutEvent extends LoginEvent {}
