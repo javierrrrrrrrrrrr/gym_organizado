@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:gym_organizado/Business_logic/Blocs/bloc/internet/bloc/internet_bloc.dart';
-import 'package:gym_organizado/Business_logic/Blocs/bloc/login/login_bloc.dart';
-import 'package:gym_organizado/Business_logic/Blocs/cubit/RberUserCredentials/rememberusercredentials_cubit.dart';
-import 'package:gym_organizado/Business_logic/Blocs/cubit/checkboxcubit/checkboccubit_cubit.dart';
-import 'package:gym_organizado/Business_logic/Blocs/cubit/validationfields_cubit.dart';
+import 'package:gym_organizado/Business_logic/Login/bloc/internetBloc/internet_bloc.dart';
+import 'package:gym_organizado/Business_logic/Login/bloc/loginBloc/login_bloc.dart';
+import 'package:gym_organizado/Business_logic/Login/cubit/checkBox/checkbox_cubit.dart';
+import 'package:gym_organizado/Business_logic/Login/cubit/fieldValidation/field_validation_cubit.dart';
+import 'package:gym_organizado/Business_logic/Login/cubit/loginInUserCredential/loginIn_user_credential_cubit.dart';
 import 'package:gym_organizado/DataLayer/Repositories/authentication_repo.dart';
 
 import 'package:gym_organizado/UI/Screens/loginPage.dart';
@@ -28,24 +28,23 @@ void main() async {
                   lazy: false,
                   create: (context) => InternetBloc(),
                 ),
-                BlocProvider<RememberUserCredentialsCubit>(
-                  create: (context) => RememberUserCredentialsCubit(),
+                BlocProvider<LoginInUserCredentialCubit>(
+                  create: (context) => LoginInUserCredentialCubit(),
                 ),
-                BlocProvider<CheckBoxCubitCubit>(
-                  create: (context) => CheckBoxCubitCubit(),
+                BlocProvider<CheckBoxCubit>(
+                  create: (context) => CheckBoxCubit(),
                 ),
                 BlocProvider<LoginBloc>(
                   create: (context) => LoginBloc(
-                      checkBoxCubitCubit: context.read<CheckBoxCubitCubit>(),
-                      rememberusercredentialsCubit:
-                          BlocProvider.of<RememberUserCredentialsCubit>(
-                              context),
+                      checkBoxCubitCubit: context.read<CheckBoxCubit>(),
+                      loginInUserCredential:
+                          context.read<LoginInUserCredentialCubit>(),
                       userRepository:
                           RepositoryProvider.of<AuthRepository>(context),
                       internetBloc: BlocProvider.of<InternetBloc>(context)),
                 ),
-                BlocProvider<ValidationfieldsCubit>(
-                  create: (context) => ValidationfieldsCubit(),
+                BlocProvider<FieldValidationCubit>(
+                  create: (context) => FieldValidationCubit(),
                 ),
               ], child: const MyApp()),
             ),
@@ -60,7 +59,11 @@ class MyApp extends StatelessWidget {
     final tema = CustomTheme.imputTheme(Get.width);
     return MaterialApp(
       title: 'Material App',
-      home: const LoginPage(),
+      home: LoginPage(
+        loginInUserCredential: context.read<LoginInUserCredentialCubit>(),
+        fieldvalidation: context.read<FieldValidationCubit>(),
+        checkBox: context.read<CheckBoxCubit>(),
+      ),
       theme: tema,
     );
   }

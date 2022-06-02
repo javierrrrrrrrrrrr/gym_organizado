@@ -1,4 +1,4 @@
-part of 'rememberusercredentials_cubit.dart';
+part of 'loginIn_user_credential_cubit.dart';
 
 class RememberusercredentialsState extends Equatable {
   final String email;

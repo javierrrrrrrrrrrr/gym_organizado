@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-part 'rememberusercredentials_state.dart';
+part 'loginIn_user_credential_state.dart';
 
-class RememberUserCredentialsCubit
+class LoginInUserCredentialCubit
     extends HydratedCubit<RememberusercredentialsState> {
-  RememberUserCredentialsCubit()
+  LoginInUserCredentialCubit()
       : super(const RememberusercredentialsState(email: '', password: ''));
 
   void remeberCredentials({

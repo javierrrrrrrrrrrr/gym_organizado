@@ -2,16 +2,24 @@ import 'package:elegant_notification/elegant_notification.dart';
 import 'package:elegant_notification/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gym_organizado/Business_logic/Blocs/bloc/login/login_bloc.dart';
-import 'package:gym_organizado/Business_logic/Blocs/cubit/RberUserCredentials/rememberusercredentials_cubit.dart';
-import 'package:gym_organizado/Business_logic/Blocs/cubit/checkboxcubit/checkboccubit_cubit.dart';
-import 'package:gym_organizado/Business_logic/Blocs/cubit/validationfields_cubit.dart';
+import 'package:gym_organizado/Business_logic/Login/bloc/loginBloc/login_bloc.dart';
+import 'package:gym_organizado/Business_logic/Login/cubit/checkBox/checkbox_cubit.dart';
+import 'package:gym_organizado/Business_logic/Login/cubit/fieldValidation/field_validation_cubit.dart';
+import 'package:gym_organizado/Business_logic/Login/cubit/loginInUserCredential/loginIn_user_credential_cubit.dart';
 import 'package:gym_organizado/Constants/validations.dart';
 import 'package:gym_organizado/UI/Screens/admin_dashboard.dart';
 import 'package:gym_organizado/UI/Widgets/custom_buttom.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage(
+      {Key? key,
+      required this.fieldvalidation,
+      required this.loginInUserCredential,
+      required this.checkBox})
+      : super(key: key);
+  final FieldValidationCubit fieldvalidation;
+  final LoginInUserCredentialCubit loginInUserCredential;
+  final CheckBoxCubit checkBox;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -21,27 +29,29 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    if (BlocProvider.of<RememberUserCredentialsCubit>(context).state.email !=
-        "") {
-      context.read<ValidationfieldsCubit>().validateEmailField(true);
-      context.read<ValidationfieldsCubit>().validatePasswordField(true);
-      context.read<CheckBoxCubitCubit>().setCheckToPressed(true);
+    // var fieldvalidation = context.read<FieldValidationCubit>();
+    // var loginInUserCredential = context.read<LoginInUserCredentialCubit>();
+    // var checkBox = context.read<CheckBoxCubit>();
+
+    if (widget.loginInUserCredential.state.email != "") {
+      widget.fieldvalidation.validateEmailField(true);
+      widget.fieldvalidation.validatePasswordField(true);
+      widget.checkBox.setCheckToPressed(true);
     }
   }
 
   final _formkey = GlobalKey<FormState>();
-  bool valor = false;
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
     final TextEditingController emailController = TextEditingController(
-      text: BlocProvider.of<RememberUserCredentialsCubit>(context).state.email,
+      text: widget.loginInUserCredential.state.email,
     );
     final TextEditingController passwordController = TextEditingController(
-      text:
-          BlocProvider.of<RememberUserCredentialsCubit>(context).state.password,
+      text: widget.loginInUserCredential.state.password,
     );
 
     return Scaffold(
@@ -110,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                   key: _formkey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child:
-                      BlocBuilder<ValidationfieldsCubit, ValidationfildsState>(
+                      BlocBuilder<FieldValidationCubit, FieldValidationState>(
                     builder: (context, state) {
                       return Column(
                         children: [
@@ -153,24 +163,18 @@ class _LoginPageState extends State<LoginPage> {
                             padding: const EdgeInsets.only(right: 140),
                             child: Row(
                               children: [
-                                BlocBuilder<CheckBoxCubitCubit,
-                                    CheckBoxCubitState>(
+                                BlocBuilder<CheckBoxCubit, CheckBoxState>(
                                   builder: (context, state) {
                                     return Checkbox(
                                       activeColor:
                                           const Color.fromRGBO(77, 82, 233, 1),
-                                      value: context
-                                          .read<CheckBoxCubitCubit>()
-                                          .state
-                                          .isPressed,
+                                      value: widget.checkBox.state.isPressed,
                                       onChanged: (value) {
                                         if (value! == true) {
-                                          context
-                                              .read<CheckBoxCubitCubit>()
+                                          widget.checkBox
                                               .setCheckToPressed(value);
                                         } else {
-                                          context
-                                              .read<CheckBoxCubitCubit>()
+                                          widget.checkBox
                                               .setCheckToNotPressed(value);
                                         }
                                       },
@@ -196,12 +200,12 @@ class _LoginPageState extends State<LoginPage> {
                               FocusScope.of(context).unfocus();
                               if (_formkey.currentState?.validate() ?? false) {
                                 BlocProvider.of<LoginBloc>(context).add(
-                                    LoginButtonPressed(
+                                    OnLoginButtonPresEvent(
                                         email: emailController.text,
                                         password: passwordController.text));
 
                                 /** Navegar */
-                              } else {}
+                              }
                             },
                             title: "Acceder",
                           )
