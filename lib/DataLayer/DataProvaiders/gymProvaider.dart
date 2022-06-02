@@ -6,8 +6,7 @@ class GymApi {
   Future<http.Response> loginUser(String email, String password) async {
     var request = await http.post(
         Uri.parse('http://152.206.85.91:3000/api/auth/login'),
-        body:
-            json.encode({"email": "adonysva@gmail.com", "password": "123456"}),
+        body: json.encode({"email": email, "password": password}),
         headers: {'Content-Type': 'application/json'});
 
     return request;
