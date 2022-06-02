@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'validationfields_state.dart';
+part 'field_validation_state.dart';
 
-class ValidationfieldsCubit extends Cubit<ValidationfildsState> {
-  ValidationfieldsCubit()
-      : super(const ValidationfildsState(
+class FieldValidationCubit extends Cubit<FieldValidationState> {
+  FieldValidationCubit()
+      : super(const FieldValidationState(
             isEmailValidated: false, isPasswordValidated: false));
 
   void validateEmailField(bool isValidFields) {

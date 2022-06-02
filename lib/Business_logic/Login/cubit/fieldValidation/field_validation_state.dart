@@ -1,18 +1,18 @@
-part of 'validationfields_cubit.dart';
+part of 'field_validation_cubit.dart';
 
-class ValidationfildsState extends Equatable {
-  const ValidationfildsState({
+class FieldValidationState extends Equatable {
+  const FieldValidationState({
     required this.isEmailValidated,
     required this.isPasswordValidated,
   });
   final bool isEmailValidated;
   final bool isPasswordValidated;
 
-  ValidationfildsState copyWith({
+  FieldValidationState copyWith({
     bool? isEmailValidated,
     bool? isPasswordValidated,
   }) =>
-      ValidationfildsState(
+      FieldValidationState(
         isEmailValidated: isEmailValidated ?? this.isEmailValidated,
         isPasswordValidated: isPasswordValidated ?? this.isPasswordValidated,
       );

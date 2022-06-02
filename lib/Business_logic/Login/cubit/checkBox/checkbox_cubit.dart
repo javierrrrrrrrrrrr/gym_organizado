@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'checkboccubit_state.dart';
+part 'checkbox_state.dart';
 
-class CheckBoxCubitCubit extends Cubit<CheckBoxCubitState> {
-  CheckBoxCubitCubit() : super(const CheckboccubitInitial(false));
+class CheckBoxCubit extends Cubit<CheckBoxState> {
+  CheckBoxCubit() : super(const CheckboccubitInitial(false));
 
   void setCheckToPressed(bool value) {
     emit(CkeckBoxPressed(value));
